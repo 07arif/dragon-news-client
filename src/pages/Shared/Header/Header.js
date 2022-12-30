@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from 'react-router-dom';
 import LeftSideNav from '../LeftSideNav/LeftSideNav';
-
+import { FaUserAlt, IconName } from "react-icons/fa";
+import { AuthContext } from '../../../context/AuthProvider/AuthProvider';
+import Image from 'react-bootstrap/Image'
 
 const Header = () => {
+    const { user,logOut } = useContext(AuthContext)
+    console.log(user)
+    const handleLogOut = ()=>{
+        logOut()
+        .then(()=>{})
+        .catch((error)=>console.error(error))
+    }
     return (
         <div>
             <Navbar collapseOnSelect className='mb-4' expand="lg" bg="light" variant="light">
@@ -31,10 +40,29 @@ const Header = () => {
                             </NavDropdown>
                         </Nav>
                         <Nav>
-                            <Nav.Link href="#deets">More deets</Nav.Link>
-                            <Nav.Link eventKey={2} href="#memes">
-                                Dank memes
-                            </Nav.Link>
+                            {
+                                user?.uid ?
+                                    <> 
+                                        <Nav.Link>
+                                            {
+                                                user?.photoURL ?
+                                                    <Image style={{ height: '35px' }} roundedCircle src={user?.photoURL}></Image>
+                                                    :
+                                                    <FaUserAlt />
+                                            }
+
+                                        </Nav.Link>
+                                        <Nav.Link  href="#memes">
+                                            {user?.displayName}
+                                        </Nav.Link>
+                                        <Nav.Link  onClick={handleLogOut}>LogOut</Nav.Link>
+                                    </>
+                                    :
+                                    <>
+                                      <Link to='/login'> Login</Link>
+                                      <Link to='/register'> Register</Link>
+                                    </>
+                            }
                         </Nav>
                         <div className='d-lg-none'>
                             <LeftSideNav>
