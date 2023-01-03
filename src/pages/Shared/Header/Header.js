@@ -5,7 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from 'react-router-dom';
 import LeftSideNav from '../LeftSideNav/LeftSideNav';
-import { FaUserAlt, IconName } from "react-icons/fa";
+import { FaUserAlt} from "react-icons/fa";
 import { AuthContext } from '../../../context/AuthProvider/AuthProvider';
 import Image from 'react-bootstrap/Image'
 
@@ -39,11 +39,11 @@ const Header = () => {
                                 </NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
-                        <Nav>
+                        <>
                             {
                                 user?.uid ?
                                     <> 
-                                        <Nav.Link>
+                                        <Nav.Link >
                                             {
                                                 user?.photoURL ?
                                                     <Image style={{ height: '35px' }} roundedCircle src={user?.photoURL}></Image>
@@ -52,9 +52,9 @@ const Header = () => {
                                             }
 
                                         </Nav.Link>
-                                        <Nav.Link  href="#memes">
+                                        <Link  to='/profile'>
                                             {user?.displayName}
-                                        </Nav.Link>
+                                        </Link>
                                         <Nav.Link  onClick={handleLogOut}>LogOut</Nav.Link>
                                     </>
                                     :
@@ -63,7 +63,7 @@ const Header = () => {
                                       <Link to='/register'> Register</Link>
                                     </>
                             }
-                        </Nav>
+                        </>
                         <div className='d-lg-none'>
                             <LeftSideNav>
 
